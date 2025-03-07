@@ -1,11 +1,33 @@
-import turtle as trtl 
-import random as rand 
+import turtle as trtl
+import random as rand
 
 wn = trtl.Screen()
-
 wn.setup(width=593, height=362)
 wn.bgpic("background.gif")
-wn.mainloop()
+wn.tracer(0)
+wn.update()
 
 painter = trtl.Turtle()
 counter = trtl.Turtle()
+
+font_setup = ("Arial", 20, "normal")
+
+timer = 15
+counter_interval = 1000
+timer_up = False
+
+def countdown():
+    global timer, timer_up
+    counter.clear()
+
+    if timer <= 0:
+        counter.write("Time's Up", font=font_setup)
+        timer_up = True
+    else:
+        counter.write("Timer: " + str(timer), font=font_setup)
+        timer -= 1
+        wn.ontimer(countdown, counter_interval)
+
+countdown()
+
+wn.mainloop()
