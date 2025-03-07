@@ -28,6 +28,18 @@ def countdown():
         timer -= 1
         wn.ontimer(countdown, counter_interval)
 
+mole_image = "mole.gif"
+wn.addshape("mole.gif")
+
+mole = trtl.Turtle()
+
+def draw_mole(active_mole):
+  active_mole.shape(mole_image)
+  mole.shapesize(stretch_wid=0.3, stretch_len=0.3)
+  wn.update()
+
+draw_mole(mole)
+
 countdown()
 
 wn.mainloop()
