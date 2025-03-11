@@ -32,11 +32,21 @@ mole_image = "mole.gif"
 wn.addshape("mole.gif")
 
 mole = trtl.Turtle()
+mole.shapesize(stretch_wid=5, stretch_len=5)
 
 def draw_mole(active_mole):
   active_mole.shape(mole_image)
   mole.shapesize(stretch_wid=0.3, stretch_len=0.3)
   wn.update()
+
+coordinates = [(0,0), (0,50), (0,-50)]
+# rand_position = rand.choice(coordinates)
+def mole_clicked(x, y):
+    mole.hideturtle()
+    mole.penup()
+    mole.goto(rand.choice(coordinates))
+    mole.showturtle()
+mole.onclick(mole_clicked)
 
 draw_mole(mole)
 
