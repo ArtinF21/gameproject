@@ -5,10 +5,11 @@ wn = trtl.Screen()
 wn.setup(width=593, height=362)
 wn.bgpic("background.gif")
 wn.tracer(0)
-wn.update()
 
-painter = trtl.Turtle()
 counter = trtl.Turtle()
+counter.hideturtle()
+counter.penup()
+counter.goto(-70, 100)
 
 font_setup = ("Arial", 20, "normal")
 
@@ -16,40 +17,54 @@ timer = 15
 counter_interval = 1000
 timer_up = False
 
+score = 0
+score_display = trtl.Turtle()
+score_display.hideturtle()
+score_display.penup()
+score_display.goto(150, 100)
+
+def update_score():
+    score_display.clear()
+    score_display.write("Score: " + str(score), font=font_setup)
+
 def countdown():
     global timer, timer_up
     counter.clear()
-
     if timer <= 0:
         counter.write("Time's Up", font=font_setup)
         timer_up = True
+        counter.goto(-100, 50)
+        counter.write(f"Good Job! Your score was {score}", font=font_setup)
     else:
         counter.write("Timer: " + str(timer), font=font_setup)
         timer -= 1
         wn.ontimer(countdown, counter_interval)
 
-mole_image = "mole.gif"
-wn.addshape("mole.gif")
-
+mole_image = "mole.gif"  
+wn.addshape(mole_image)
 mole = trtl.Turtle()
-mole.shapesize(stretch_wid=5, stretch_len=5)
+mole.penup()
+mole.shape(mole_image)
 
-def draw_mole(active_mole):
-  active_mole.shape(mole_image)
-  mole.shapesize(stretch_wid=0.3, stretch_len=0.3)
-  wn.update()
+mole_positions = [(-170, 30), (-80, -100), (160, 140), (-15, 100), (165, 130), (210, 40), (190, -70), (20, 0)]
 
-coordinates = [(0,0), (0,50), (0,-50)]
-# rand_position = rand.choice(coordinates)
+def draw_mole():
+    if timer > 0:
+        position = rand.choice(mole_positions)  
+        mole.goto(position) 
+        wn.update()  
+
 def mole_clicked(x, y):
-    mole.hideturtle()
-    mole.penup()
-    mole.goto(rand.choice(coordinates))
-    mole.showturtle()
+    global score
+    if timer > 0:
+        score += 1
+        update_score()
+        draw_mole()
+
 mole.onclick(mole_clicked)
 
-draw_mole(mole)
-
+draw_mole()
+update_score()
 countdown()
-
 wn.mainloop()
+
